@@ -208,6 +208,6 @@ def detect():
                 # Print time (inference + NMS)
                 # print removed 
                 _, jpeg = cv2.imencode('.jpg', im0)
-                frame = jpeg.tobytes()
+                frame = jpeg.tobytes() # 이미지를 바이너리 형태로 변환
                 #print(cv2.cuda.getCudaEnabledDeviceCount()) # 형태 확인
                 yield(b'--frame\r\n' b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n') 
