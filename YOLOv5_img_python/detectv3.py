@@ -151,7 +151,7 @@ def detect():
                         if(det[i][-1]==4): #safe
                             safe_num+=1
         
-################################# mysql db sql #################################
+                    ## mysql db sql , ajax 로 보내질 데이터
                     total_num = nohelmet_num + nomask_num + danger_num
                     cursor = SmartInside_db.cursor()
 
@@ -159,7 +159,6 @@ def detect():
                     val = (smk_num, nohelmet_num, nomask_num, danger_num, total_num, smk_num,nohelmet_num, nomask_num,  danger_num, total_num)
                     cursor.execute(sql,val)
                     SmartInside_db.commit()
-######################################################################################
                 
                     if smk_num==0 and danger_num==0:
                         if nohelmet_num>=3 or nomask_num>=3 :
@@ -178,20 +177,16 @@ def detect():
                         im0 = cv2.putText(im0, text2, (750, 50), cv2.FONT_HERSHEY_SIMPLEX,2,[0,0,255],4)
 
 
-##########################  mysql db 에 저장 #################################
+                        # mysql db 에 issue 저장
                         global frame_count
                         frame_count+=1
                         if frame_count==6:
-                            # t_start = time.localtime()
-                            # t_end = time.localtime()
                             t_time=time.localtime(time.time())
-                            # save_time = str("%04d%02d%02d_%02d%02d%02d" % (t_end.tm_year, t_end.tm_mon, t_end.tm_mday, t_end.tm_hour, t_end.tm_min, t_end.tm_sec))+".jpg"
                             save_time = str("%04d%02d%02d_%02d%02d%02d" % (t_time.tm_year, t_time.tm_mon, t_time.tm_mday, t_time.tm_hour, t_time.tm_min, t_time.tm_sec))+".jpg"
                             save_file = '/workspace/hu/pybo/static/imageimage/'
                             cv2.imwrite(save_file+save_time, im0)
                             Photos2.objects.create(status='DANGER', photo_name=save_time)
                             frame_count=0
-#################################################################################
 
                         text2 = "Status: Warning !"
                         im0 = cv2.putText(im0, text2, (750, 50), cv2.FONT_HERSHEY_SIMPLEX,2,[0,255,255],4)
