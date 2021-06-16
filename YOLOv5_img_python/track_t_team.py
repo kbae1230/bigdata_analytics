@@ -1,4 +1,3 @@
-# SORT = 칼만필터 + 헝가리안 알고리즘 DeepSORT = 딥러닝 + SORT
 import pyspark
 from pyspark.sql.functions import *
 from pyspark.sql.types import *
