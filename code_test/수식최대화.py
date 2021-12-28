@@ -1,54 +1,77 @@
-def operation(num1, num2, op):
-    if op == '*':
-        return str(num1*num2)
-    elif op == '+':
-        return str(num1+num2)
-    elif op == '-':
-        return str(num1-num2)
-    else:
-        raise Exception('There is no operation')
-    
-def makeExpressionList(expression):
-    temp = ''
-    expression_list = []
-    operation_list = []
-    for i in a:
-        if i.isdigit():
-            temp += i
-        else:
-            expression_list.append(temp)
-            expression_list.append(i)
-            operation_list.append(i)
-            temp = ''
-    expression_list.append(temp)
-    return expression_list
-
-def makeOperationList(operation_list):
-    from itertools import permutations
-
-    return list(permutations(set(operation_list), len(set(operation_list))))
-
+from itertools import permutations
 import copy
-expression_temp = copy.deepcopy(expression_list)
-    # 순열로
 
-def solution(expression):
-    expression_list = makeExpressionList(expression)
-    operation_list = makeExpressionList(operation_list)
-    result = []
-    for oper in operation_list:
 
-        for op in oper:
-            while op in expression_temp:
-                op_index = expression_temp.index(op)
-                num2 = expression_temp.pop(op_index+1)
-                op = expression_temp.pop(op_index)
-                num1 = expression_temp.pop(op_index-1)
-                expression_temp.insert(op_index-1,operation(int(num1), int(num2), op)) 
+class MaximumOperation:
+    
+    def __init__(self):
+        self.expression_list = []
+        self.operation_list = []
 
-        result.append(abs(int(expression_temp[0])))
+        
+    def makeExpressionList(self, expression):
+        temp = ''
 
-        expression_temp = copy.deepcopy(expression_list)
+        for i in expression:
+            
+            if i.isdigit():
+                temp += i
+            else:
+                self.expression_list.append(temp)
+                self.expression_list.append(i)
+                self.operation_list.append(i)
+                temp = ''
+                
+        self.expression_list.append(temp)
+        return self.expression_list
 
-print(max(result))
+
+    def makeOperationList(self):
+
+        return list(permutations(set(self.operation_list), len(set(self.operation_list))))
+    
+       
+    def operation(self, num1, num2, op):
+        if op == '*':
+            return str(num1*num2)
+        elif op == '+':
+            return str(num1+num2)
+        elif op == '-':
+            return str(num1-num2)
+        else:
+            raise Exception('There is no operation')
+
+
+    def solution(self, expression):
+        
+        self.expression_list = self.makeExpressionList(expression)
+        self.operation_list = self.makeOperationList()
+ 
+        expression_temp = copy.deepcopy(self.expression_list)
+        
+        result = []
+        for oper in self.operation_list:
+
+            for op in oper:
+                while op in expression_temp:
+                    op_index = expression_temp.index(op)
+                    num2 = expression_temp.pop(op_index+1)
+                    op = expression_temp.pop(op_index)
+                    num1 = expression_temp.pop(op_index-1)
+                    expression_temp.insert(op_index-1, self.operation(int(num1), int(num2), op)) 
+
+            result.append(abs(int(expression_temp[0])))
+
+            expression_temp = copy.deepcopy(self.expression_list)
+
+        return max(result)
+    
+
+if __name__ == '__main__':
+    # expression = "100-200*300-500+20"
+    expression = "100-200*300-500+20"
+    maximumOperation = MaximumOperation()
+    result = maximumOperation.solution(expression)
+    print(result)
+    
 
