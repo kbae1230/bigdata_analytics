@@ -74,4 +74,5 @@ if __name__ == '__main__':
     result = maximumOperation.solution(expression)
     print(result)
     
-
+# expression = re.split('([-+*])',expression) 로도 가능
+# eval() 안에 str 이어도 계산
